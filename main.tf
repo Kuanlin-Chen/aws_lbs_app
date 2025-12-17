@@ -95,8 +95,8 @@ resource "aws_security_group" "alb_sg" {
 }
 resource "aws_security_group_rule" "allow_alb_http_inbound" {
   type              = "ingress"
-  from_port         = 80
-  to_port           = 80
+  from_port         = 443
+  to_port           = 443
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"] # Allow from anywhere
   security_group_id = aws_security_group.alb_sg.id
@@ -127,8 +127,8 @@ resource "aws_lb" "load_balancer" {
 
 resource "aws_lb_listener" "http_listener" {
   load_balancer_arn = aws_lb.load_balancer.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = "443"
+  protocol          = "HTTPS"
 
   default_action {
     type = "fixed-response"
