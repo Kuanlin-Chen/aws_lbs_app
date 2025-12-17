@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "ap-northeast-3" # Osaka
+  region = var.region
 }
 
 data "aws_vpc" "default_vpc" {
