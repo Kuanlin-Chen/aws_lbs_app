@@ -1,12 +1,4 @@
 terraform {
-  backend "s3" {
-    bucket       = "lbsapp-tf-state"
-    key          = "terraform.tfstate"
-    region       = "ap-northeast-3"
-    encrypt      = true
-    use_lockfile = true
-  }
-
   required_providers {
     aws = {
       source  = "hashicorp/aws",
