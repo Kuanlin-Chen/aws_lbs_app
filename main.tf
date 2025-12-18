@@ -35,6 +35,15 @@ resource "aws_security_group_rule" "allow_http_inbound" {
   security_group_id = aws_security_group.instance_sg.id
 }
 
+resource "aws_security_group_rule" "allow_test_inbound" {
+  type              = "ingress"
+  from_port         = 8081
+  to_port           = 8081
+  protocol          = "tcp"
+  cidr_blocks       = [data.aws_vpc.default_vpc.cidr_block]
+  security_group_id = aws_security_group.instance_sg.id
+}
+
 module "instance_1" {
   source = "./modules/private_instance"
 
