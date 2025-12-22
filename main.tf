@@ -76,6 +76,29 @@ resource "aws_kms_key" "s3_kms_key" {
   deletion_window_in_days = 10
 }
 
+resource "aws_s3_bucket" "moved_bucket" {
+  bucket_prefix = "lbsapp-bucket"
+  force_destroy = true
+}
+
+resource "aws_s3_bucket_versioning" "bucket_versioning" {
+  bucket = aws_s3_bucket.moved_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
+  bucket = aws_s3_bucket.moved_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.s3_kms_key.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
 # Security Group for ALB
 resource "aws_security_group" "alb_sg" {
   name = "alb_sg"
