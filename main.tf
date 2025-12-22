@@ -28,6 +28,10 @@ data "aws_subnets" "default_subnets" {
   }
 }
 
+removed {
+  from = aws_s3_bucket.moved_bucket
+}
+
 # Security Group for Instances
 resource "aws_security_group" "instance_sg" {
   name = "instance_sg"
