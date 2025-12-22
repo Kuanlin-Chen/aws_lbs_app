@@ -7,5 +7,9 @@ variable "instance_type" {
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "ap-northeast-3"
+
+  validation {
+    condition     = var.region != ""
+    error_message = "The region variable must not be empty."
+  }
 }
