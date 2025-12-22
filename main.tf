@@ -1,4 +1,10 @@
 terraform {
+  cloud {
+    organization = "kuanlin-chen-personal"
+    workspaces {
+      name = "aws_lbs_app"
+    }
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws",
