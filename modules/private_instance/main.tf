@@ -6,6 +6,10 @@ resource "aws_instance" "web_server" {
   user_data                   = var.user_data
 
   lifecycle {
+    precondition {
+      condition = var.instance_type == "t3.micro" || var.instance_type == "t2.micro"
+      error_message = "Instance type must be t3.micro or t2.micro for private instances."
+    }
     postcondition {
       condition     = self.public_ip == ""
       error_message = "Instance should not have a public IP assigned."
