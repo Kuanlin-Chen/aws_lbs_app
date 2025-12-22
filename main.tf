@@ -35,20 +35,11 @@ resource "aws_security_group_rule" "allow_http_inbound" {
   security_group_id = aws_security_group.instance_sg.id
 }
 
-resource "aws_security_group_rule" "allow_test_inbound" {
-  type              = "ingress"
-  from_port         = 8081
-  to_port           = 8081
-  protocol          = "tcp"
-  cidr_blocks       = [data.aws_vpc.default_vpc.cidr_block]
-  security_group_id = aws_security_group.instance_sg.id
-}
-
 module "instance_1" {
   source = "./modules/private_instance"
 
   ami_id          = "ami-09a38e2e7a3cc42de" # Ubuntu Server 24.04 LTS
-  instance_type   = var.instance_type
+  instance_type   = var.region == "ap-northeast-1" ? "t2.micro" : var.instance_type
   security_groups = [aws_security_group.instance_sg.name]
   user_data       = <<-EOF
                 #!/bin/bash
@@ -61,7 +52,7 @@ module "instance_2" {
   source = "./modules/private_instance"
 
   ami_id          = "ami-09a38e2e7a3cc42de" # Ubuntu Server 24.04 LTS
-  instance_type   = var.instance_type
+  instance_type   = var.region == "ap-northeast-1" ? "t2.micro" : var.instance_type
   security_groups = [aws_security_group.instance_sg.name]
   user_data       = <<-EOF
                 #!/bin/bash
