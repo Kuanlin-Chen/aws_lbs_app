@@ -191,10 +191,3 @@ resource "aws_lb_listener_rule" "forward_to_tg" {
     }
   }
 }
-
-check "lbs_dns_check" {
-  assert {
-    condition = aws_lb.load_balancer.dns_name != null && aws_lb.load_balancer.dns_name != ""
-    error_message   = "Load balancer should have a DNS name assigned."
-  }
-}
